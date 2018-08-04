@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import CreateCard from './pages/Card/createCard';
+import Nav from './components/nav';
 
 const isAuthenticated = () => {
   const token = localStorage.getItem('token');
@@ -38,11 +39,14 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 export default () => (
   <BrowserRouter>
-    <Switch>
-      <Route path="/" exact component={Home} />
-      <Route path="/login" exact component={Login} />
-      <Route path="/register" exact component={SignUp} />
-      <PrivateRoute path="/create-card" exact component={CreateCard} />
-    </Switch>
+    <div className="app">
+      <Nav />
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/login" exact component={Login} />
+        <Route path="/Sign-up" exact component={SignUp} />
+        <PrivateRoute path="/create-card" exact component={CreateCard} />
+      </Switch>
+    </div>
   </BrowserRouter>
 );

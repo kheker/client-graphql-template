@@ -1,6 +1,8 @@
 import React from 'react';
 import { withFormik } from 'formik';
+import * as Yup from 'yup';
 import { compose, graphql } from 'react-apollo';
+import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 
 const SignUp = ({
@@ -11,47 +13,59 @@ const SignUp = ({
   isSubmitting,
   handleBlur,
 }) => (
-  <div>
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="email"
-        placeholder="Email"
-        value={values.email || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        value={values.username || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <input
-        type="text"
-        name="fullName"
-        placeholder="fullName"
-        value={values.fullName || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={values.password || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <button type="submit" disabled={isSubmitting}>
-        SignUp
-      </button>
-    </form>
-    {errors.length > 0 ? (
-      <ul>{errors.map(error => <li key={error}>{error}</li>)}</ul>
-    ) : null}
+  <div className="form-box">
+    <div className="form-container">
+      <h2>Sign Up</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          value={values.email || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={values.username || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <input
+          type="text"
+          name="fullName"
+          placeholder="fullName"
+          value={values.fullName || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={values.password || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        {Object.keys(errors).length ? (
+          <div className="message-error">
+            <ul className="list">
+              {Object.keys(errors).map(e => (
+                <li key={e}>{errors[e]}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        <button type="submit" disabled={isSubmitting}>
+          SignUp
+        </button>
+      </form>
+      <p>
+        Already have an account? <Link to="login">LogIn</Link>
+      </p>
+    </div>
   </div>
 );
 
@@ -88,13 +102,23 @@ export default compose(
       fullName: '',
       password: '',
     }),
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .email('Invalid Email')
+        .required('Email is required'),
+      password: Yup.string()
+        .required('Password is required')
+        .min(6, 'Password need to be longer'),
+      fullName: Yup.string().required('Name is required'),
+      username: Yup.string().required('Username is required'),
+    }),
     handleSubmit: async (
       values,
-      { props, setSubmitting, resetForm, setErrors },
+      { props: { mutate, history }, setSubmitting, resetForm, setErrors },
     ) => {
       const {
         data: { signup },
-      } = await props.mutate({
+      } = await mutate({
         variables: {
           email: values.email,
           username: values.username,

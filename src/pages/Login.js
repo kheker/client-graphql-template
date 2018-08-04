@@ -1,7 +1,9 @@
 import React from 'react';
+import * as Yup from 'yup';
 import { withFormik } from 'formik';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Link } from 'react-router-dom';
 
 const Login = ({
   values,
@@ -10,31 +12,46 @@ const Login = ({
   isSubmitting,
   errors,
 }) => (
-  <div>
-    <form>
-      <input
-        type="text"
-        name="email"
-        value={values.email}
-        onChange={handleChange}
-      />
-      <input
-        type="password"
-        name="password"
-        value={values.password}
-        onChange={handleChange}
-      />
-      <button type="submit" disabled={isSubmitting} onClick={handleSubmit}>
-        Login
-      </button>
-    </form>
-    {errors.length > 0 ? (
-      <ul>
-        {errors.map(error => (
-          <li key={error}>{error}</li>
-        ))}
-      </ul>
-    ) : null}
+  <div className="form-box">
+    <div className="form-container">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          value={values.email}
+          onChange={handleChange}
+          autoComplete="off"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={values.password}
+          onChange={handleChange}
+          autoComplete="off"
+        />
+        <Link to="resetPassword" className="resetPassword">
+          forgot the password ?
+        </Link>
+        {Object.keys(errors).length ? (
+          <div className="message-error">
+            <ul className="list">
+              {Object.keys(errors).map(e => (
+                <li key={e}>{errors[e]}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        <button type="submit" disabled={isSubmitting} onClick={handleSubmit}>
+          Login
+        </button>
+      </form>
+      <p>
+        Don't have an account? <Link to="Sign-up">Sign Up</Link>
+      </p>
+    </div>
   </div>
 );
 
@@ -56,13 +73,19 @@ export default compose(
   graphql(loginMutation),
   withFormik({
     mapPropsToValues: () => ({ email: '', password: '' }),
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .email('Invalid Email')
+        .required('Email is required'),
+      password: Yup.string().required('Password is required'),
+    }),
     handleSubmit: async (
       values,
-      { props, setSubmitting, resetForm, setErrors },
+      { props: { mutate, history }, setSubmitting, resetForm, setErrors },
     ) => {
       const {
         data: { login },
-      } = await props.mutate({
+      } = await mutate({
         variables: {
           email: values.email,
           password: values.password,
@@ -72,7 +95,7 @@ export default compose(
       if (ok) {
         localStorage.setItem('x-token', token);
         localStorage.setItem('x-refresh-token', refreshToken);
-        props.history.push('/');
+        history.push('/');
         resetForm(true);
         setSubmitting(false);
       } else {

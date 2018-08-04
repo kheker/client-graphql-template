@@ -26,7 +26,8 @@
     "react-scripts": "1.1.4",
     "react-transition-group": "1.x",
     "subscriptions-transport-ws": "^0.9.12",
-    "yup": "^0.26.0"
+    "typeface-roboto": "^0.0.54",
+    "yup": "0.24.1"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
