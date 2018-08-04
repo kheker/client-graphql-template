@@ -1,23 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  ApolloClient
-} from 'apollo-client';
-import {
-  ApolloProvider
-} from 'react-apollo';
-import {
-  ApolloLink
-} from 'apollo-link';
-import {
-  createHttpLink
-} from 'apollo-link-http';
-import {
-  setContext
-} from 'apollo-link-context';
-import {
-  InMemoryCache
-} from 'apollo-cache-inmemory';
+import { ApolloClient } from 'apollo-client';
+import { ApolloProvider } from 'react-apollo';
+import { ApolloLink } from 'apollo-link';
+import { createHttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import './css/main.css';
 import App from './App';
@@ -35,9 +23,7 @@ const middlewareLink = setContext(() => ({
 }));
 
 const afterwareLink = new ApolloLink((operation, forward) => {
-  const {
-    headers
-  } = operation.getContext();
+  const { headers } = operation.getContext();
   if (headers) {
     const token = headers.get('x-token');
     const refreshToken = headers.get('x-refresh-token');
@@ -61,14 +47,10 @@ const client = new ApolloClient({
   cache,
 });
 
-const ApolloApp = () => ( <
-  ApolloProvider client = {
-    client
-  } >
-  <
-  App / >
-  <
-  /ApolloProvider>
+const ApolloApp = () => (
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>
 );
-ReactDOM.render( < ApolloApp / > , document.getElementById('root'));
+ReactDOM.render(<ApolloApp />, document.getElementById('root'));
 registerServiceWorker();

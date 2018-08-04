@@ -1,22 +1,48 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import decode from 'jwt-decode';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Home from './pages/Home';
+import CreateCard from './pages/Card/createCard';
 
-const Home = () => <div> Home Page</div>;
-
-class App extends Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/register" exact component={SignUp} />
-        </Switch>
-      </BrowserRouter>
-    );
+const isAuthenticated = () => {
+  const token = localStorage.getItem('token');
+  const refreshToken = localStorage.getItem('refreshToken');
+  try {
+    decode(token);
+    decode(refreshToken);
+  } catch (err) {
+    return false;
   }
-}
 
-export default App;
+  return true;
+};
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/login',
+          }}
+        />
+      )
+    }
+  />
+);
+
+export default () => (
+  <BrowserRouter>
+    <Switch>
+      <Route path="/" exact component={Home} />
+      <Route path="/login" exact component={Login} />
+      <Route path="/register" exact component={SignUp} />
+      <PrivateRoute path="/create-card" exact component={CreateCard} />
+    </Switch>
+  </BrowserRouter>
+);

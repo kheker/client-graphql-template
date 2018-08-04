@@ -24,12 +24,16 @@ const Login = ({
         value={values.password}
         onChange={handleChange}
       />
-      <button disabled={isSubmitting} onClick={handleSubmit}>
+      <button type="submit" disabled={isSubmitting} onClick={handleSubmit}>
         Login
       </button>
     </form>
     {errors.length > 0 ? (
-      <ul>{errors.map(error => <li key={error}>{error}</li>)}</ul>
+      <ul>
+        {errors.map(error => (
+          <li key={error}>{error}</li>
+        ))}
+      </ul>
     ) : null}
   </div>
 );
