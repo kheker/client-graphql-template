@@ -1,7 +1,5 @@
 module.exports = {
-  extends: ['airbnb', 'prettier/react',
-    'prettier'
-  ],
+  extends: ['airbnb', 'prettier/react', 'prettier'],
   plugins: ['react', 'jsx-a11y', 'import'],
   rules: {
     'react/jsx-filename-extension': 0,
@@ -11,5 +9,6 @@ module.exports = {
   parser: 'babel-eslint',
   globals: {
     document: 1,
+    localStorage: true,
   },
 };
