@@ -10,6 +10,7 @@ const Login = ({
   handleChange,
   handleSubmit,
   isSubmitting,
+  handleBlur,
   errors,
 }) => (
   <div className="form-box">
@@ -22,6 +23,7 @@ const Login = ({
           placeholder="Email"
           value={values.email}
           onChange={handleChange}
+          onBlur={handleBlur}
           autoComplete="off"
         />
         <input
@@ -30,6 +32,7 @@ const Login = ({
           placeholder="Password"
           value={values.password}
           onChange={handleChange}
+          onBlur={handleBlur}
           autoComplete="off"
         />
         <Link to="resetPassword" className="resetPassword">

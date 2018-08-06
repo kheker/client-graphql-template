@@ -8,12 +8,13 @@ import CreateCard from './pages/Card/createCard';
 import Nav from './components/nav';
 
 const isAuthenticated = () => {
-  const token = localStorage.getItem('token');
-  const refreshToken = localStorage.getItem('refreshToken');
+  const token = localStorage.getItem('x-token');
+  const refreshToken = localStorage.getItem('x-refresh-token');
   try {
     decode(token);
     decode(refreshToken);
   } catch (err) {
+    console.log(err);
     return false;
   }
 
@@ -40,13 +41,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 export default () => (
   <BrowserRouter>
     <div className="app">
-      <Nav />
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/login" exact component={Login} />
-        <Route path="/Sign-up" exact component={SignUp} />
-        <PrivateRoute path="/create-card" exact component={CreateCard} />
-      </Switch>
+      <Nav isAuthenticated={isAuthenticated()} />
+      <div className="app-container">
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/Sign-up" exact component={SignUp} />
+          <PrivateRoute path="/create-card" exact component={CreateCard} />
+        </Switch>
+      </div>
     </div>
   </BrowserRouter>
 );

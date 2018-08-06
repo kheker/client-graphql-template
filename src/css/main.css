@@ -187,7 +187,7 @@ button, [type='button'], [type='reset'], [type='submit'] {
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Avenir Next", "Avenir", "Segoe UI", "Lucida Grande", "Helvetica Neue", "Helvetica", "Fira Sans", "Roboto", "Noto", "Droid Sans", "Cantarell", "Oxygen", "Ubuntu", "Franklin Gothic Medium", "Century Gothic", "Liberation Sans", sans-serif;
+  font-family: "Roboto", serif;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   font-weight: 600;
@@ -203,8 +203,8 @@ button, [type='button'], [type='reset'], [type='submit'] {
     background-color: #11519a;
     color: #fff; }
   button:focus, [type='button']:focus, [type='reset']:focus, [type='submit']:focus {
-    outline: 3px solid rgba(21, 101, 192, 0.6);
-    outline-offset: 2px; }
+    outline: none;
+    outline-offset: none; }
   button:disabled, [type='button']:disabled, [type='reset']:disabled, [type='submit']:disabled {
     cursor: not-allowed;
     opacity: 0.5; }
@@ -231,7 +231,7 @@ input,
 select,
 textarea {
   display: block;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Avenir Next", "Avenir", "Segoe UI", "Lucida Grande", "Helvetica Neue", "Helvetica", "Fira Sans", "Roboto", "Noto", "Droid Sans", "Cantarell", "Oxygen", "Ubuntu", "Franklin Gothic Medium", "Century Gothic", "Liberation Sans", sans-serif;
+  font-family: "Roboto", serif;
   font-size: 16px; }
 
 [type='color'], [type='date'], [type='datetime'], [type='datetime-local'], [type='email'], [type='month'], [type='number'], [type='password'], [type='search'], [type='tel'], [type='text'], [type='time'], [type='url'], [type='week'], input:not([type]), textarea {
@@ -348,7 +348,7 @@ td {
 
 html {
   color: #333;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Avenir Next", "Avenir", "Segoe UI", "Lucida Grande", "Helvetica Neue", "Helvetica", "Fira Sans", "Roboto", "Noto", "Droid Sans", "Cantarell", "Oxygen", "Ubuntu", "Franklin Gothic Medium", "Century Gothic", "Liberation Sans", sans-serif;
+  font-family: "Roboto", serif;
   font-size: 100%;
   line-height: 1.5; }
 
@@ -358,7 +358,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Avenir Next", "Avenir", "Segoe UI", "Lucida Grande", "Helvetica Neue", "Helvetica", "Fira Sans", "Roboto", "Noto", "Droid Sans", "Cantarell", "Oxygen", "Ubuntu", "Franklin Gothic Medium", "Century Gothic", "Liberation Sans", sans-serif;
+  font-family: "Roboto", serif;
   font-size: 1.25em;
   line-height: 1.2;
   margin: 0 0 0.75em; }
@@ -373,8 +373,8 @@ a {
   a:hover {
     color: #104c90; }
   a:focus {
-    outline: 3px solid rgba(21, 101, 192, 0.6);
-    outline-offset: 2px; }
+    outline: none;
+    outline-offset: none; }
 
 hr {
   border-bottom: 1px solid #ddd;
@@ -384,6 +384,7 @@ hr {
   margin: 1.5em 0; }
 
 .message-error {
+  font-size: 14px;
   background: rgba(99, 26, 29, 0.760784);
   color: #ffb6b6;
   margin-bottom: 0.75rem;
@@ -393,33 +394,53 @@ hr {
   .message-error ul.list {
     list-style: inside; }
 
-body {
-  font-family: "Roboto", serif;
-  height: 100%; }
-  body #root {
-    height: 100%; }
-    body #root .app {
-      height: 100%; }
+.menu {
+  width: 100%;
+  background-color: blue;
+  height: 3.75rem; }
+  .menu .menu-container {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between; }
+    .menu .menu-container a {
+      text-decoration: none;
+      color: #ffffff; }
+    .menu .menu-container a.logo {
+      line-height: 3.75rem; }
+    .menu .menu-container .menu-items {
+      display: flex; }
+      .menu .menu-container .menu-items .menu-item {
+        line-height: 3.75rem;
+        margin: 0 0.9rem; }
 
 .form-box {
-  height: 100%;
+  min-height: 100vh;
   background: url(./img/background-blue.svg) no-repeat 50% 50%;
   width: 100%;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center; }
+  background-size: cover; }
   .form-box .form-container {
+    width: 50%;
+    transform: translate(50%, 15%);
     background: rgba(0, 0, 0, 0.4);
-    padding: 1.8rem;
+    padding: 0 2rem;
     border-radius: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.5);
     color: #fff; }
+    @media (max-width: 575.98px) {
+      .form-box .form-container {
+        width: 100%;
+        background: transparent;
+        border: none;
+        transform: none; } }
     .form-box .form-container h2 {
       text-align: center;
-      font-family: "Roboto", serif;
       font-size: 3.2rem;
       font-weight: 300; }
+      @media (max-width: 575.98px) {
+        .form-box .form-container h2 {
+          font-size: 2.1rem; } }
     .form-box .form-container a.resetPassword {
       color: #f9f9f9;
       text-decoration: none;
@@ -429,8 +450,8 @@ body {
     .form-box .form-container input {
       color: #ffffff;
       background: rgba(0, 0, 0, 0.3);
-      width: 320px;
-      height: 50px;
+      width: 100%;
+      height: 2.5rem;
       outline: none;
       border: 1px solid rgba(0, 0, 0, 0.5);
       font-size: 0.98rem;
@@ -441,9 +462,9 @@ body {
         opacity: 0.8; }
     .form-box .form-container button {
       color: #ffffff;
-      width: 325px;
+      width: 100%;
       height: 50px;
-      font-weight: lighter;
+      font-weight: 500;
       background: linear-gradient(45deg, #0778d6, #282cb1); }
   .form-box p {
     text-align: center;

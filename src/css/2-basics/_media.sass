@@ -1,0 +1,23 @@
+// Extra small devices (portrait phones, less than 576px) bootstrap media queries
+$phones: 575.98px
+// Small devices (landscape phones, less than 768px)
+$landscape-phones: 767.98px
+// Medium devices (tablets, less than 992px)
+$tablets: 991.98px
+// Large devices (desktops, less than 1200px)
+$desktops: 1199.98px
+
+
+
+=sm()
+  @media (max-width: #{$phones})
+    @content
+
+=md()
+  @media (max-width: #{$tablets})
+    @content
+
+=lg()
+  @media (min-width: #{$desktops})
+    @contents
+
