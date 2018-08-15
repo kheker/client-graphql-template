@@ -47,7 +47,11 @@ const Login = ({
             </ul>
           </div>
         ) : null}
-        <button type="submit" disabled={isSubmitting} onClick={handleSubmit}>
+        <button
+          type="submit"
+          disabled={isSubmitting || Object.keys(errors).length}
+          onClick={handleSubmit}
+        >
           Login
         </button>
       </form>
@@ -84,7 +88,7 @@ export default compose(
     }),
     handleSubmit: async (
       values,
-      { props: { mutate, history }, setSubmitting, resetForm, setErrors },
+      { props: { mutate, history, auth }, setSubmitting, resetForm, setErrors },
     ) => {
       const {
         data: { login },
@@ -96,8 +100,7 @@ export default compose(
       });
       const { ok, token, refreshToken, errors } = login;
       if (ok) {
-        localStorage.setItem('x-token', token);
-        localStorage.setItem('x-refresh-token', refreshToken);
+        auth(ok, token, refreshToken);
         history.push('/');
         resetForm(true);
         setSubmitting(false);

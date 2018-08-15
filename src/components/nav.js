@@ -2,20 +2,20 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 // import logo from '../css/img/'
 
-const userLinks = (
+const userLinks = logout => (
   <Fragment>
-    <Link className="menu-item" to="/create-card" name="Create-Card">
+    <Link className="menu-item" to="/dashboard" name="dashboard">
       {' '}
-      Create Card
-    </Link>
-    <Link className="menu-item" to="/loguot" name="logout">
-      {' '}
-      Logout
+      Dashboard
     </Link>
     <Link className="menu-item" to="/profile" name="profile">
       {' '}
       Profile
     </Link>
+    <a className="menu-item" onClick={logout}>
+      {' '}
+      Logout
+    </a>
   </Fragment>
 );
 
@@ -30,14 +30,14 @@ const guestLinks = (
     </Link>
   </Fragment>
 );
-export default ({ isAuthenticated }) => (
+export default ({ isAuthenticated, logout }) => (
   <div className="menu">
     <div className="menu-container">
       <Link className="logo" to="/">
         Logo
       </Link>
       <div className="menu-items">
-        {isAuthenticated ? userLinks : guestLinks}
+        {isAuthenticated ? userLinks(logout) : guestLinks}
       </div>
     </div>
   </div>

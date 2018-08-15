@@ -114,7 +114,7 @@ export default compose(
     }),
     handleSubmit: async (
       values,
-      { props: { mutate, history }, setSubmitting, resetForm, setErrors },
+      { props: { mutate, history, auth }, setSubmitting, resetForm, setErrors },
     ) => {
       const {
         data: { signup },
@@ -128,10 +128,10 @@ export default compose(
       });
       const { ok, token, refreshToken, errors } = signup;
       if (ok) {
+        auth(ok, token, refreshToken);
+        history.push('/');
         setSubmitting(false);
         resetForm(true);
-        localStorage.setItem('x-token', token);
-        localStorage.setItem('x-refresh-token', refreshToken);
       } else {
         setSubmitting(false);
         const err = [];
