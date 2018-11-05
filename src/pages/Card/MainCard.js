@@ -1,6 +1,8 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import Modal from '../../components/modal';
+import CardList from './CardList';
 
 const MainCard = ({ data }) => (
   <div className="main-card">
@@ -14,6 +16,9 @@ const MainCard = ({ data }) => (
             <li key={list._id} className="list-item">
               <a>{list.name}</a>
               <div>{list.description}</div>
+              <Modal>
+                <CardList list={list} />
+              </Modal>
             </li>
           ))}
         </ul>
